@@ -11,6 +11,16 @@
     <description>Open Telemetry Exporter for Honeycomb</description>
     <copyright>Copyright 2020</copyright>
     <tags>Observability Tracing OpenTelemetry Honeycomb</tags>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="Honeycomb" version="1.0.0" />
+        <dependency id="OpenTelemetry" version="0.6.0-beta.1" />
+        <dependency id="OpenTelemetry.Api" version="0.6.0-beta.1" />
+        <dependency id="Microsoft.Extensions.DependencyInjection" version="3.1.2" />
+        <dependency id="Microsoft.Extensions.Options" version="3.1.2" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\release\**\*.dll" target="lib/" />
