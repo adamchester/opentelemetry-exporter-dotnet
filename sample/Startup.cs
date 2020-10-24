@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Honeycomb.OpenTelemetry;
 using Honeycomb.Models;
 using Honeycomb;
-using OpenTelemetry.Trace.Configuration;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace sample
 {
@@ -31,11 +33,13 @@ namespace sample
             services.AddSingleton<HoneycombExporter>();
 
             // OpenTelemetry Setup
-            services.AddOpenTelemetry((sp, builder) => {
-                builder.UseHoneycomb(sp)
-                    .AddRequestCollector()
-                    .AddDependencyCollector();
-            });
+            services.AddOpenTelemetryTracing((sp, builder) =>
+                builder
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .SetResource(Resources.CreateServiceResource("sample"))
+                    .UseHoneycomb(sp)
+                    .AddConsoleExporter(c => c.DisplayAsJson = true));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
